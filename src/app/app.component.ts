@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ngx-app';
+
+  title = 'Angular Session Code';
+  greetingMessage: string;
+  appName: string = 'Superman';
+
+  handleOnGreetEvent(message: string): void {
+    this.greetingMessage = message;
+  }
+
 }
