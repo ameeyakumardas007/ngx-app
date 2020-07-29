@@ -1,12 +1,14 @@
-<div class="container">
-  <h1>{{ title }}</h1>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li [routerLinkActive]="['active']"><a [routerLink]="'customer-list'">Customer List</a></li>
+      <li [routerLinkActive]="['active']"><a [routerLink]="'customer-details'">Customer Details</a></li>
+    </ul>
+  </div>
 
-  <hr />
+</nav>
 
-  <app-greet [name]="appName" (onGreetClick)="handleOnGreetEvent($event)"></app-greet>
+<button class="btn btn-lg btn-primary" (click)="navigateTo('customer-list')">Customer List</button>
+<button class="btn btn-lg btn-primary" (click)="navigateTo('customer-details')">Customer Details</button>
 
-  <hr>
-
-  Greeting Message: {{ greetingMessage }}
-
-</div>
+<router-outlet></router-outlet>
