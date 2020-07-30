@@ -15,6 +15,17 @@ export class AppComponent {
   title = 'Angular Session Code';
   greetingMessage: string;
   appName: string = 'Superman';
+  showElement: boolean = true;
+  elementName: string = 'div';
+  currentDate: Date = new Date();
+
+  numbers: number[] = [1, 2, 3, 4, 5];
+  months: string[] = ['January', 'February', 'March', 'April', 'May'];
+  customers = [
+    {name: 'Batman', address: 'Gotham'},
+    {name: 'Wonder Woman', address: 'Them...'},
+    {name: 'Superman', address: 'Metrop...'},
+  ];
 
   handleOnGreetEvent(message: string): void {
     this.greetingMessage = message;
@@ -22,6 +33,10 @@ export class AppComponent {
 
   navigateTo(targetPath: string): void {
     this._router.navigate([targetPath]);
+  }
+
+  addRemoveElement(condition: boolean): void {
+    this.showElement = condition;
   }
 
 }

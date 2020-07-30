@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { GreetComponent } from './greet/greet.component';
 import { DetailGuardGuard } from './detail-guard.guard';
+import { HighlightDirective } from './highlight.directive';
+import { MultiplierPipe } from './multiplier.pipe';
 
 const routes: Routes = [
   {
@@ -24,6 +26,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     GreetComponent,
+    HighlightDirective,
+    MultiplierPipe,
   ],
   imports: [
     BrowserModule,
