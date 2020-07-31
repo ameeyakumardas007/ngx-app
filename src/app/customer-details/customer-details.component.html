@@ -1,1 +1,22 @@
-<p>customer-details works!</p>
+<h2>Customer Details Form</h2>
+
+<form #customerForm="ngForm" (ngSubmit)="onSubmit(); customerForm.reset()">
+  <div class="form-group" [ngClass]="name.touched && name.invalid ? 'has-error' : ''">
+    <label class="control-label">Name:</label>
+    <input type="text" class="form-control" name="name" [(ngModel)]="customer.name" placeholder="Customer Name Here" required #name="ngModel">
+    <span class="help-block" *ngIf="name.invalid && name.touched">Name is required</span>
+  </div>
+  <div class="form-group" [ngClass]="gender.touched && gender.invalid ? 'has-error' : ''">
+    <label class="control-label">Gender:</label>
+    <select class="form-control" name="gender" [(ngModel)]="customer.gender" required #gender="ngModel">
+      <option [ngValue]="null">-- SELECT --</option>
+      <option [ngValue]="'male'">Male</option>
+      <option [ngValue]="'female'">Female</option>
+      <option [ngValue]="'other'">Other</option>
+    </select>
+    <span class="help-block" *ngIf="gender.invalid && gender.touched">Gender is required</span>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="customerForm.invalid || customerForm.pristine">Submit</button>
+</form>
+
+<!-- customer: {{ customer | json }} -->
