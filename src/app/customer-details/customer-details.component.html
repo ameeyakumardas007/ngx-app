@@ -1,22 +1,38 @@
 <h2>Customer Details Form</h2>
 
-<form #customerForm="ngForm" (ngSubmit)="onSubmit(); customerForm.reset()">
-  <div class="form-group" [ngClass]="name.touched && name.invalid ? 'has-error' : ''">
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit(); customerForm.reset()">
+  <div class="form-group" [ngClass]="customerForm.get('name').dirty && customerForm.get('name').invalid ? 'has-error' : ''">
     <label class="control-label">Name:</label>
-    <input type="text" class="form-control" name="name" [(ngModel)]="customer.name" placeholder="Customer Name Here" required #name="ngModel">
-    <span class="help-block" *ngIf="name.invalid && name.touched">Name is required</span>
+    <input type="text" class="form-control" placeholder="Customer Name Here" formControlName="name">
+    <span class="help-block" *ngIf="customerForm.get('name').hasError('required') && customerForm.get('name').dirty">
+      Name is required
+    </span>
+    <span class="help-block" *ngIf="customerForm.get('name').hasError('minlength') && customerForm.get('name').dirty">
+      Name should be at least {{ customerForm.get('name').errors.minlength.requiredLength }} characters long. You have entered {{ customerForm.get('name').errors.minlength.actualLength }}.
+    </span>
+    <span class="help-block" *ngIf="customerForm.get('name').hasError('maxlength') && customerForm.get('name').dirty">
+      Name should be 5 characters max.
+    </span>
   </div>
-  <div class="form-group" [ngClass]="gender.touched && gender.invalid ? 'has-error' : ''">
-    <label class="control-label">Gender:</label>
-    <select class="form-control" name="gender" [(ngModel)]="customer.gender" required #gender="ngModel">
-      <option [ngValue]="null">-- SELECT --</option>
-      <option [ngValue]="'male'">Male</option>
-      <option [ngValue]="'female'">Female</option>
-      <option [ngValue]="'other'">Other</option>
-    </select>
-    <span class="help-block" *ngIf="gender.invalid && gender.touched">Gender is required</span>
+  <div class="form-group" [ngClass]="customerForm.get('age').dirty && customerForm.get('age').invalid ? 'has-error' : ''">
+    <label class="control-label">Age:</label>
+    <input type="text" class="form-control" placeholder="Customer Age" formControlName="age">
+    <span class="help-block" *ngIf="customerForm.get('age').hasError('invalidAge') && customerForm.get('age').dirty">
+      Age should be greater than or equal to 18.
+    </span>
+    <span class="help-block" *ngIf="customerForm.get('age').hasError('isNotANumber') && customerForm.get('age').dirty">
+      Age should be a number.
+    </span>
   </div>
-  <button type="submit" class="btn btn-primary" [disabled]="customerForm.invalid || customerForm.pristine">Submit</button>
+  <button type="submit" class="btn btn-primary" [disabled]="customerForm.invalid">Submit</button>
 </form>
 
-<!-- customer: {{ customer | json }} -->
+<br>
+Form Value: {{ customerForm.value | json }}
+<br>
+Is Form Valid: {{ customerForm.valid }}
+<br>
+Errors in name field: {{ customerForm.get('name').errors | json }}
+<br>
+Errors in age field: {{ customerForm.get('age').errors | json }}
+
