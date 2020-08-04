@@ -1,1 +1,20 @@
-<p>customer-list works!</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of customers">
+      <td>{{ customer.id }}</td>
+      <td>{{ customer.name }}</td>
+      <td>{{ customer.age }}</td>
+      <td>
+        <a [routerLink]="['/customer-details', customer.id]">Details</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
