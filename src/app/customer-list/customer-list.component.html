@@ -1,3 +1,4 @@
+<button class="btn btn-primary" (click)="openCustomerModal(customerTemplate, null)">Add New Customer</button>
 <table class="table">
   <thead>
     <tr>
@@ -13,8 +14,52 @@
       <td>{{ customer.name }}</td>
       <td>{{ customer.age }}</td>
       <td>
-        <a [routerLink]="['/customer-details', customer.id]">Details</a>
+        <a class="btn btn-xs btn-primary" [routerLink]="['/customer-details', customer.id]">Details</a>
+        <button class="btn btn-xs btn-info" (click)="openCustomerModal(customerTemplate, customer)">Edit</button>
+        <button class="btn btn-xs btn-danger" (click)="openDeleteModal(template, customer.id)">Delete</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you want to delete this Customer record?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>
+
+<ng-template #customerTemplate>
+  <div class="modal-body">
+    <form [formGroup]="customerForm" (ngSubmit)="onSubmit(); customerForm.reset()">
+      <div class="form-group" [ngClass]="customerForm.get('name').dirty && customerForm.get('name').invalid ? 'has-error' : ''">
+        <label class="control-label">Name:</label>
+        <input type="text" class="form-control" placeholder="Customer Name Here" formControlName="name">
+        <span class="help-block" *ngIf="customerForm.get('name').hasError('required') && customerForm.get('name').dirty">
+          Name is required
+        </span>
+        <span class="help-block" *ngIf="customerForm.get('name').hasError('minlength') && customerForm.get('name').dirty">
+          Name should be at least {{ customerForm.get('name').errors.minlength.requiredLength }} characters long. You have entered {{ customerForm.get('name').errors.minlength.actualLength }}.
+        </span>
+        <span class="help-block" *ngIf="customerForm.get('name').hasError('maxlength') && customerForm.get('name').dirty">
+          Name should be 5 characters max.
+        </span>
+      </div>
+      <div class="form-group" [ngClass]="customerForm.get('age').dirty && customerForm.get('age').invalid ? 'has-error' : ''">
+        <label class="control-label">Age:</label>
+        <input type="text" class="form-control" placeholder="Customer Age" formControlName="age">
+        <span class="help-block" *ngIf="customerForm.get('age').hasError('invalidAge') && customerForm.get('age').dirty">
+          Age should be greater than or equal to 18.
+        </span>
+        <span class="help-block" *ngIf="customerForm.get('age').hasError('isNotANumber') && customerForm.get('age').dirty">
+          Age should be a number.
+        </span>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="customerForm.invalid">
+        {{ !selectedCustomer ? 'Add' : 'Save' }}
+      </button>
+    </form>
+  </div>
+</ng-template>
